@@ -3,7 +3,7 @@ val: ./valid/images
 test: ./test/images
 
 nc: 1
-names: ['laranjas']
+names: ['laranja']
 
 roboflow:
   workspace: teest-oasxe
