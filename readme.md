@@ -15,6 +15,6 @@ Com o yolo é necessário fazer o treinamento com base nos modelos abaixo para q
 **Modelos Yolo usados**
 
 - [Yolo v5](https://docs.ultralytics.com/models/yolov5/)
-- [Yolo v7](https://docs.ultralytics.com/models/yolov7/)
+- [Yolo v8](https://docs.ultralytics.com/models/yolov8/)
 - [Yolo v9](https://docs.ultralytics.com/models/yolov9/)
 - [Yolo v11](https://docs.ultralytics.com/models/yolo11/)
