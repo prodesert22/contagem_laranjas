@@ -65,24 +65,32 @@ def pre_processamento(caminho_imagem: str):
     return filtrada
 
 def contar_objetos_opencv(imagem: MatLike, caminho_imagem: str):
-    _num_obj, _, stats, centroids = cv2.connectedComponentsWithStats(imagem, connectivity=4, ltype=cv2.CV_32S)
+    # Encontrar componentes conectados
+    _num_obj, _, stats, _ = cv2.connectedComponentsWithStats(imagem, connectivity=4, ltype=cv2.CV_32S)
     
+    # Abre a imagem original para criar as caixas de detecção
     img_com_caixa = cv2.imread(caminho_imagem)
     
+    # Como é filtrado alguns objetos é necessario criar uma variavel nova para contar
+    # o numero de objetos detectados
     num_obj = 0
     for i in range(_num_obj):
+        # Pega o ponto x e y do canto superior esquerdo do objeto
         x = stats[i, cv2.CC_STAT_LEFT]
         y = stats[i, cv2.CC_STAT_TOP]
+        # Pega a largunta e altura do objeto
         w = stats[i, cv2.CC_STAT_WIDTH]
         h = stats[i, cv2.CC_STAT_HEIGHT]
+        # Pega area
         area = stats[i, cv2.CC_STAT_AREA]
-        (cX, cY) = centroids[i]
         
         height, width, _ = img_com_caixa.shape
 
+        # Algumas imagens tem objetos detectados como a imagem inteira então o if abaixo ignora eles
+        # Filtra objetos com a area maior que 100 pixeis
         if area >= 100 and w * h < height * width:
+            # Desenha a caixa de detecção
             cv2.rectangle(img_com_caixa, (x, y), (x + w, y + h), (0, 255, 0), 3)
-            cv2.circle(img_com_caixa, (int(cX), int(cY)), 4, (0, 0, 255), -1)
             num_obj += 1
 
     return num_obj, img_com_caixa
@@ -93,17 +101,17 @@ def contar_objetos_skimage(imagem: MatLike, caminho_imagem: str):
     # Encontrar componentes conectados
     label_image = label(imagem)
 
-    # Criar uma cópia da imagem original para desenhar os retângulos
+    # Abre a imagem original para criar as caixas de detecção
     img_com_caixa = cv2.imread(caminho_imagem)
 
-    # Iterar sobre as regiões encontradas
     num_obj = 0
     for region in regionprops(label_image):
+        # Filtra objetos com a area maior que 100 pixeis
         if region.area >= 100:
-            # Obter as coordenadas da região
+            # Obtem as coordenadas da região
             minr, minc, maxr, maxc = region.bbox
 
-            # Desenhar o retângulo na imagem
+            # Desenha a caixa de detecção
             cv2.rectangle(img_com_caixa, (minc, minr), (maxc, maxr), (0, 255, 0), 2)  # Verde, 2 pixels de espessura
 
             num_obj += 1
