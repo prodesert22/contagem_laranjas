@@ -7,7 +7,7 @@ def contar_objetos(modelo: str, imagem: str, conf=0.5):
     # Faz as predições
     results = model.predict(source=imagem, conf=conf)
 
-    # Pega as caixas detectadas e o nome das classes qie tem no modelo
+    # Pega as caixas detectadas e o nome das classes que tem no modelo
     boxes = results[0].boxes
     names = results[0].names
 
@@ -22,7 +22,7 @@ def contar_objetos(modelo: str, imagem: str, conf=0.5):
             classe = int(classe)
             count[classe] = count[classe] + 1
 
-    # Mostra a imagem com as caixas de detecção
+    # Salva a imagem com as caixas de detecção
     results[0].save("resultado_" + imagem)
     return count, "resultado_" + imagem
 
