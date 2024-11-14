@@ -55,7 +55,7 @@ def pre_processamento(caminho_imagem: str):
     img_processada = cv2.erode(img_processada, kernel,  iterations = 6)
 
     img_processada = cv2.cvtColor(img_processada, cv2.COLOR_BGR2GRAY)
-    cv2.imshow("img processada", img_processada)
+    #cv2.imshow("img processada", img_processada)
     return img_processada
 
 def contar_objetos_opencv(imagem: MatLike, caminho_imagem: str):
