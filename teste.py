@@ -58,7 +58,7 @@ def main():
 
             contagem_total_yolo[i+1] = contagem
             
-            with open(f"./teste/resultados/resultados_yolo/{modelo}/yolo_{i+1}.jpg", "wb") as file:
+            with open(f"./teste/resultados/resultados_yolo/{modelo}/{modelo}_{i+1}.jpg", "wb") as file:
                 file.write(imagem_yolo)
             
         with open(f"./teste/resultados/resultados_yolo/{modelo}/contagem_total_{modelo}.json", "w") as file:
