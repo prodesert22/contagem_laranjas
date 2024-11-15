@@ -16,7 +16,7 @@ def main():
     # Cria um vetor com o caminho para os arquivos das imagens que serão testadas
     imagens = []
     for i in range(1, TOTAL_IMAGENS + 1):
-        imagens.append(f"./teste/{i}.jpg")
+        imagens.append(f"./teste/imagens_originais/{i}.jpg")
     
     # Cria um vetor com as imagens pre processadas que serão usadas nas bibliotecas opencv e skimage
     imagens_pre_processadas = [] 
@@ -36,15 +36,15 @@ def main():
         contagem_total_skimage[i+1] = contagem_skimage
 
         # Salva a imagem nas suas respectivas pastas 
-        cv2.imwrite(f"./resultados_opencv/opencv_{i+1}.jpg", imagem_opencv)
-        cv2.imwrite(f"./resultados_skimage/skimage_{i+1}.jpg", imagem_skimage)
+        cv2.imwrite(f"./teste/resultados/resultados_opencv/opencv_{i+1}.jpg", imagem_opencv)
+        cv2.imwrite(f"./teste/resultados/resultados_skimage/skimage_{i+1}.jpg", imagem_skimage)
     
     # Salva os resultados da contagem em um arquivo json,
     # onde a chave é numero da image e o valor o o numero de objetos detectados
-    with open(f"./contagem_total_opencv.json", "w") as file:
+    with open(f"./teste/resultados/resultados_opencv/contagem_total_opencv.json", "w") as file:
         file.write(json.dumps(contagem_total_opencv, indent=2))
         
-    with open(f"./contagem_total_skimage.json", "w") as file:
+    with open(f"./teste/resultados/resultados_skimage/contagem_total_skimage.json", "w") as file:
         file.write(json.dumps(contagem_total_skimage, indent=2))
     
     for modelo in MODELOS_YOLO:
@@ -58,10 +58,10 @@ def main():
 
             contagem_total_yolo[i+1] = contagem
             
-            with open(f"./resultados_yolo/{modelo}/yolo_{i+1}.jpg", "wb") as file:
+            with open(f"./teste/resultados/resultados_yolo/{modelo}/yolo_{i+1}.jpg", "wb") as file:
                 file.write(imagem_yolo)
             
-        with open(f"./contagem_total_{modelo}.json", "w") as file:
+        with open(f"./teste/resultados/resultados_yolo/{modelo}/contagem_total_{modelo}.json", "w") as file:
              file.write(json.dumps(contagem_total_yolo, indent=2))
 
 if __name__ == "__main__":
