@@ -1,5 +1,5 @@
-import tempfile
-import os
+import io
+from PIL import Image
 from ultralytics import YOLO
 
 def contar_objetos(modelo: str, imagem: str, conf=0.5):
@@ -7,7 +7,7 @@ def contar_objetos(modelo: str, imagem: str, conf=0.5):
     model = YOLO(modelo)
 
     # Faz as predições
-    results = model.predict(source=imagem, conf=conf)
+    results = model.predict(source=imagem, conf=conf, show_labels=False, show_boxes=True)
 
     # Pega as caixas detectadas e o nome das classes que tem no modelo
     boxes = results[0].boxes # objeto com as caixas delimitadoras
@@ -26,15 +26,14 @@ def contar_objetos(modelo: str, imagem: str, conf=0.5):
             classe = int(classe)
             count[classe] = count[classe] + 1
 
-    # Salva a imagem com as caixas de detecção
-    fd, temp_filename = tempfile.mkstemp(suffix=".jpg")
-    os.close(fd)
-    
-    # Salva a image em um arquivo temporario
-    results[0].save(temp_filename)
-    # Le o arquivo temporario da imagem e retorna ele em binario
-    with open(temp_filename, "rb") as file:
-        imagem_final = file.read()
+    imagem_bgr = results[0].plot(labels=False)
+    im_rgb = Image.fromarray(imagem_bgr[..., ::-1])
+
+    # Salva a imagem como bytes
+    buffer = io.BytesIO()
+    im_rgb.save(buffer, format="JPEG")
+    imagem_final = buffer.getvalue()
+    buffer.close()
 
     contagem_final: dict[str, int] = {}
     for key, value in count.items():
@@ -44,4 +43,8 @@ def contar_objetos(modelo: str, imagem: str, conf=0.5):
     return contagem_final, imagem_final
 
 if __name__ == "__main__":
-    contar_objetos("./treinamento/yolov5/weights/best.pt", "laranjas.jpg")
+    contagem, imagem = contar_objetos("./treinamento/yolov5/weights/best.pt", "1.jpg")
+    
+    print(contagem)
+    with open("imagem_teste.jpg", "wb") as file:
+        file.write(imagem)
