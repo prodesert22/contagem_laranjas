@@ -43,6 +43,7 @@ def contar_objetos(modelo: str, imagem: str, conf=0.5):
     return contagem_final, imagem_final
 
 if __name__ == "__main__":
+    # Seleciona modelo usado e a imagem para ser detectada
     contagem, imagem = contar_objetos("./treinamento/yolov5/weights/best.pt", "1.jpg")
     
     print(contagem)
