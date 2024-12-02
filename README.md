@@ -1,4 +1,4 @@
-# Contagem  de laranjas e pés de erva mate
+# Contagem  de laranjas 
 
 Esse projeto tem como objetivo fazer a contagem de laranjas e pé de erva mate através de usos de diferentes tecnicas e modelos de inteligência artificial.
 
@@ -18,3 +18,6 @@ Com o yolo é necessário fazer o treinamento com base nos modelos abaixo para q
 - [Yolo v8](https://docs.ultralytics.com/models/yolov8/)
 - [Yolo v9](https://docs.ultralytics.com/models/yolov9/)
 - [Yolo v11](https://docs.ultralytics.com/models/yolo11/)
+
+### Visão computacional
+Foram utilizados duas bibliotecas para visão computacional, opencv e scikit-image, ambas foramn utiliozadas com a técnica de contagem de objetos da cor branca conectados.
