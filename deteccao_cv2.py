@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from cv2.typing import MatLike
 
-caminho_imagem = "laranja.jpg"
+caminho_imagem = "docs/laranja.png"
 
 def pre_processamento(caminho_imagem: str):
     # Carrega a imagem
